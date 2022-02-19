@@ -1,0 +1,33 @@
+
+<form method="post" id="addSubject">
+    <table>
+        <tr>
+            <td> <label for="leader">*Prowadzacy:</label></td>
+            <td> <input type="text" id="leader" pattern="^[0-9]+$" >  </td>
+        </tr>
+        <tr>
+            <td> <label for="lesson">*Nazwa przedmiotu:</label></td>
+            <td> <input type="text" id="lesson" pattern="^[A-Z]{1}[a-z]{1,10}$" ></td>
+        </tr>
+        <tr>
+            <td> <button style="width:100%" type ="reset">Reset</button> </td>
+            <td> <button style="width:100%" type ="submit" >Zatwierdz</button></td>
+        </tr>
+    </table>
+    </form>
+    
+    <script>
+        var user_form = document.querySelector('#addSubject');
+        user_form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const items = getAllElementsFromForm(user_form);
+            if(items==null) alert("Wprowadz dane do formularza");
+            else {
+                addSubject(items);
+                document.getElementById("addSubject").reset();
+                drawTable("przedmiot");
+            }
+        });
+    drawTable("przedmiot");
+    </script>
+    

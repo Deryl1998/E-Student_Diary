@@ -1,0 +1,15 @@
+
+.main {
+    width: 40%;
+    float: right;
+    background-color: #0a37db78;
+    text-align: center;
+    border-radius: 30px;
+    margin-right: 20px;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 15px;
+      }

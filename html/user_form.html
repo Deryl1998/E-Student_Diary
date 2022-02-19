@@ -1,0 +1,53 @@
+
+<form method="post" id="addUser">
+<table>
+    <tr>
+        <td> <label for="fname">*Name:</label></td>
+        <td> <input type="text" id="fname" >  </td>
+    </tr>
+    <tr>
+        <td> <label for="lname">*Surname:</label></td>
+        <td> <input type="text" id="lname" ></td>
+    </tr>
+    <tr>
+        <td> <label for="sex">*Sex:</label></td>
+        <td> <select type="text" id="sex"></td>
+    </tr>
+    <tr>
+        <td> <label for="role">*Role:</label></td>
+        <td> <select type="text" id="role"></td>
+    </tr>
+    <tr>
+        <td> <label for="login">*Login:</label></td>
+        <td> <input type="text" id="login" ></td>
+    </tr>
+    <tr>
+        <td> <label for="password">*Password:</label></td>
+        <td> <input type="text" id="password" ></td>
+    </tr>
+    <tr>
+        <td> <button style="width:100%" type ="reset">Reset</button> </td>
+        <td> <button style="width:100%" type ="submit" >Submit</button></td>
+    </tr>
+</table>
+</form>
+
+<script>
+    var user_form = document.querySelector('#addUser');
+    user_form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const items = getAllElementsFromForm(user_form);
+        if(items==null) return
+        else {
+            addUser(items);
+            document.getElementById("addUser").reset();
+            drawTable('users_view',"users");
+        }
+    });
+document.getElementById("fname").pattern = words;
+document.getElementById("lname").pattern = words;
+document.getElementById("login").pattern = words;
+document.getElementById("password").pattern = password;
+createSelectValuesForALl(user_form,['sex','role'],1)
+drawTable('users_view',"users");
+</script>

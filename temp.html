@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAZA</title>
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="DBConnect.js"></script>
+<script type="text/javascript" src="dataBaseFunctions.js"></script>
+<script type="text/javascript" src="addToTables.js"></script>
+<script type="text/javascript" src="dataBaseCreate.js"></script>
+</head>
+<body style="background: #0a37db78; font-size: 20px;">
+
+    <div class="myDiv">
+
+            <label for="fname">First name:</label>
+            <input type="text" id="fname" name="fname"><br><br>
+            <label for="lname">Last name:</label>
+            <input type="text" id="lname" name="lname"><br><br>
+            <button onclick="myScrypt()">Submit</button>
+            <br><br>
+            <label for="dName">class</label>
+          <input type="text" id="dName" name="dName"><br><br>
+            <button onclick="myScrypt2()">Submit</button>
+            <br><br>
+            <label for="d1">przedmiot</label>
+          <input type="text" id="d1" name="d1"><br><br>
+          <label for="d2">klasa</label>
+          <input type="text" id="d2" name="d2"><br><br>
+          <label for="d3">sala</label>
+          <input type="text" id="d3" name="d3"><br><br>
+            <button onclick="myScrypt3()">Submit</button>
+            <br><br>
+            <label for="e1">prowadzacy</label>
+          <input type="text" id="e1" name="e1"><br><br>
+          <label for="e2">przedmot</label>
+          <input type="text" id="e2" name="e2"><br><br>
+            <button onclick="myScrypt4()">Submit</button>
+            <br><br>
+            <label for="r1">nauczyciel</label>
+          <input type="text" id="r1" name="r1"><br><br>
+          <label for="r2">uczen</label>
+          <input type="text" id="r2" name="r2"><br><br>
+          <label for="r3">uwaga</label>
+          <input type="text" id="r3" name="r3"><br><br>
+            <button onclick="myScrypt5()">Submit</button>
+    </div>
+
+    
+
+    <table class="users">
+        <tr class="info">
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tbody id="usersTable">
+        </tbody>
+    </table>
+
+    <table class="sale">
+        <tr class="info">
+            <th></th>
+            <th></th>
+        </tr>
+        <tbody id="salaTable">
+        </tbody>
+    </table>
+
+</body>
+
+<script>
+    function myScrypt(){
+        var imie = document.getElementById('fname').value;
+        var nazwisko = document.getElementById('lname').value;
+        addUzytkownik(imie , nazwisko);
+        drawUsers();
+    }
+
+    function myScrypt2(){
+        var name = document.getElementById('dName').value;
+        addSala(name);
+        drawSala();
+    }
+    function myScrypt3(){
+        var d1 = document.getElementById('d1').value;
+        var d2 = document.getElementById('d2').value;
+        var d3 = document.getElementById('d3').value;
+        addPlanZajec(d1 , d2,d3);
+        drawPlanZajec();
+    }
+
+    function myScrypt4(){
+        var e1 = document.getElementById('e1').value;
+        var e2 = document.getElementById('e2').value;
+        addPrzedmiot(e1,e2);
+        drawPrzedmiot();
+    }
+    function myScrypt5(){
+        var r1 = document.getElementById('r1').value;
+        var r2 = document.getElementById('r2').value;
+        var r3 = document.getElementById('r3').value;
+        addUwagi(r1,r2,r3);
+        drawUwagi();
+    }
+</script>
+
+</html>

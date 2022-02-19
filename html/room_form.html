@@ -1,0 +1,30 @@
+
+
+<form method="post" id="addRoom">
+    <table>
+        <tr>
+            <td> <label for="froom">*Nazwa Sali:</label></td>
+            <td> <input type="text" id="froom" pattern="^[A-Za-z]{1}[a-z1-9]{1,10}$" >  </td>
+        </tr>
+        <tr>
+            <td> <button style="width:100%" type ="reset">Reset</button> </td>
+            <td> <button style="width:100%" type ="submit" >Zatwierdz</button></td>
+        </tr>
+    </table>
+    </form>
+    
+    <script>
+        var user_form = document.querySelector('#addRoom');
+        user_form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const items = getAllElementsFromForm(user_form);
+            if(items==null) alert("Wprowadz dane do formularza");
+            else {
+                addRoom(items);
+                document.getElementById("addRoom").reset();
+                drawTable("sala");
+            }
+        });
+    drawTable("sala");
+    </script>
+    

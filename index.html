@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Student-Diary</title>
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="js/DBConnect.js"></script>
+<script type="text/javascript" src="js/drawTables.js"></script>
+<script type="text/javascript" src="js/validate.js"></script>
+<script type="text/javascript" src="js/DML.js"></script>
+<script src="scripts/jquery.min.js"></script>  
+
+<script> 
+window.$ = window.jQuery = require('jquery');
+
+$(function(){
+    var isAdmin = connect();
+    if(isAdmin)
+    $("#includedContent").load("html/admin_panel.html"); 
+    });
+</script>
+
+</head>
+
+<body style="background: #0a37db78; font-size: 20px;">
+    <div id="login_panel">
+    </div>
+
+    <div id="includedContent"></div>
+</body>
+
+
+
+</html>
