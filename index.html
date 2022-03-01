@@ -4,34 +4,113 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>E-Student-Diary</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="calendar.css">
+<link rel="stylesheet" href="css/style.css">
 <script type="text/javascript" src="js/DBConnect.js"></script>
 <script type="text/javascript" src="js/drawTables.js"></script>
 <script type="text/javascript" src="js/validate.js"></script>
 <script type="text/javascript" src="js/DML.js"></script>
 <script type="text/javascript" src="js/formActions.js"></script>
+<script type="text/javascript" src="js/Database/createViews.js"></script>
+<script type="text/javascript" src="js/Database/createDatabase.js"></script>
+<script type="text/javascript" src="js/Database/generateRecords.js"></script>
+<script type="text/javascript" src="js/Database/dropDatabase.js"></script>
 <script src="scripts/jquery.min.js"></script>  
-
-<script> 
-window.$ = window.jQuery = require('jquery');
-
-$(function(){
-    var isAdmin = connect();
-    if(isAdmin)
-    $("#includedContent").load("html/admin_panel.html"); 
-    });
-</script>
-
 </head>
 
+
 <body style="background: #0a37db78; font-size: 20px;">
-    <div id="login_panel">
+    <div id="admin_panel">
+        <ul>
+            <li> 
+                <div class="dropdown">
+                    <button class="dropbtn">School settings</button>
+                    <div class="dropdown-content">
+                        <a href="#" id="room">Rooms</a>
+                        <a href ="#" id="subject"> Subjects </a>
+                        <a href ="#" id="degrees"> Degrees </a>
+                        <a href ="#" id="lesson_hours"> Lesson hours </a>
+                    </div> 
+                </div> 
+            </li>
+            <li> <a href ="#" id="users"> Users </a> </li>
+            <li> <a href ="#" id="schedule"> Schedule </a> </li>
+            <li> <a href ="#" id="studentAssessment"> Student assessment </a> </li>
+            <li> <a href ="#" id="studentClass"> Student class </a> </li>
+            <li> <a href ="#" id="teachersSubject"> Teachers subject </a> </li>
+            <li> <a href ="#" id="class"> Class </a> </li>
+            <div class="dropdown">
+                <button class="dropbtn">Database functions</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="dropDataBase()">Delete tables</a>
+                    <a href ="#" onclick="createTables()">Create tables </a>
+                    <a href ="#" onclick="generateData()">Generate records </a>
+                </div> 
+            </div> 
+     
+        </ul>
+   
+    </div>
+    <div id ="content" style="margin-top: 20px; "></div>
+    <div id ="tables" style="margin-top: 20px; ">   
+        <table id="table"> </table>     
     </div>
 
-    <div id="includedContent"></div>
 </body>
 
-
+<script>
+    window.$ = window.jQuery = require('jquery');
+    connect()
+        $(document).ready( function() {
+            $("#users").on("click", function() {
+                $("#content").load("html/user_form.html");
+            });
+        });
+        $(document).ready( function() {
+            $("#schedule").on("click", function() {
+                $("#content").load("html/schedule_form.html");
+            });
+        });
+        $(document).ready( function() {
+            $("#subject").on("click", function() {
+                $("#content").load("html/subject_form.html");
+            });
+        });
+    
+        $(document).ready( function() {
+            $("#room").on("click", function() {
+                $("#content").load("html/room_form.html");
+            });
+        });
+        $(document).ready( function() {
+            $("#class").on("click", function() {
+                $("#content").load("html/class_form.html");
+            });
+        });
+        $(document).ready( function() {
+            $("#lesson_hours").on("click", function() {
+                $("#content").load("html/lesson_hours.html");
+            });
+        });
+        $(document).ready( function() {
+            $("#studentAssessment").on("click", function() {
+                $("#content").load("html/studentAssessment_form.html");
+            });
+        });
+        $(document).ready( function() {
+            $("#degrees").on("click", function() {
+                $("#content").load("html/degrees_form.html");
+            });
+        });
+        $(document).ready( function() {
+            $("#studentClass").on("click", function() {
+                $("#content").load("html/studentClass_form.html");
+            });
+        });
+        $(document).ready( function() {
+            $("#teachersSubject").on("click", function() {
+                $("#content").load("html/teachersSubject_form.html");
+            });
+        });
+    </script>
 
 </html>

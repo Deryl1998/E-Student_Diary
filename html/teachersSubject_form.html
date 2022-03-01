@@ -1,0 +1,124 @@
+
+<form method="post" id="addForm" class="form">
+    <table>
+        <caption>Assign an subject to teacher</caption>
+        <tr>
+            <td> <label for="item1">Teacher:</label></td>
+            <td> <select type="text" id="item1"></td>
+        </tr>
+        <tr>
+            <td> <label for="item2">Subject:</label></td>
+            <td> <select type="text" id="item2" ></td>
+        </tr>
+        <tr>
+            <td> <button style="width:100%" type ="reset">Reset</button> </td>
+            <td> <button style="width:100%" type ="submit" >Submit</button></td>
+        </tr>
+    </table>
+    </form>
+    
+    <form method="post" id="editForm" class="form" style="display:none">
+        <table>
+            <caption>Edit</caption>
+            <td style="display:none"> <input type="text" id="id" > </td>
+            <tr>
+                <td> <label for="item3">Teacher:</label></td>
+                <td> <select type="text" id="item3"></td>
+            </tr>
+            <tr>
+                <td> <label for="item4">Subject:</label></td>
+                <td> <select type="text" id="item4" ></td>
+            </tr>
+            <tr>
+                <td> <button style="width:100%" type ="reset">Back</button> </td>
+                <td> <button style="width:100%" type ="submit" >Submit</button></td>
+            </tr>
+        </table>
+    </form>
+    
+    <br>
+    <form method="post" class="form" id="findForm">
+    <table>
+        <caption>find</caption>
+        <tr>
+            <td>
+                *<select type="text" id="sel1">
+            </td>
+            <td>
+                <input type="text">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <select type="text" id="sel2">
+            </td>
+            <td>
+                <input type="text">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+               <button style="width:100%" type ="submit">Find</button>
+            </td>
+        </tr>
+    </table>
+    </form>
+    
+    <script>
+       
+        async function initPage(tableName,viewName){
+            var user_form = document.querySelector('#addForm');
+            var findUser = document.querySelector('#findForm');
+            var editUserForm = document.querySelector('#editForm');
+    
+            user_form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const items = getAllElementsFromForm(user_form);
+                if(items==null) return
+                else {
+                    addToTable(tableName,items);
+                    document.getElementById("addForm").reset();
+                }
+            });
+    
+            findUser.addEventListener('submit', (event) => {
+                event.preventDefault();
+                filterTable(findUser,tableName,viewName);
+            });
+    
+            editUserForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const items = getAllElementsFromForm(editUserForm);
+                console.log(items)
+                uptadeTable(tableName,items);
+            });
+    
+            editUserForm.addEventListener('reset', (event) => {
+                event.preventDefault();
+                document.querySelector('#editForm').style.display='none';
+                document.querySelector('#addForm').style.display='block';
+            });
+            
+            document.getElementById("class").pattern = words;
+      
+            const select1 = document.querySelector('#sel1');
+            const select2 = document.querySelector('#sel2');
+            const item1 = document.querySelector('#item1');
+            const item2 = document.querySelector('#item2');
+            const item3 = document.querySelector('#item3');
+            const item4 = document.querySelector('#item4');
+            var array = await getObjectKeys(await selectUsersFullName(2))
+            createSelectValuesColumns([select1,select2],[viewName,viewName]);
+            createSelectValues([item2,item4],['subject','subject'],1);
+            createSelectValue(item1,array,1);
+            createSelectValue(item3,array,1);
+            
+            drawOnPage(tableName,viewName)
+        }
+    initPage('teachers_subject','teachers_subject_view');
+
+  
+    
+
+    </script>

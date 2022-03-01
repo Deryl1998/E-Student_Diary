@@ -95,7 +95,43 @@ function createScheduleView(){
      `;
      client.query(query, (err, res)=>{
          if(err){
-             console.log("class_view " + err); return;
+             console.log("remarks_view " + err); return;
+         }
+     })
+ }
+
+ function createStudentClassView(){
+    const query = `
+           CREATE OR REPLACE VIEW "student_class_view" AS SELECT
+           student_class.id,class.class_name,users.name || ' ' || users.surname as student
+           FROM student_class
+           INNER JOIN "users" 
+           on student_class.fk_student = users.id
+           INNER JOIN "class" 
+           on student_class.fk_class = class.id;
+         ;
+     `;
+     client.query(query, (err, res)=>{
+         if(err){
+             console.log("student_class_view " + err); return;
+         }
+     })
+ }
+
+ function createTeachersSubjectView(){
+    const query = `
+           CREATE OR REPLACE VIEW "teachers_subject_view" AS SELECT
+           teachers_subject.id,users.name || ' ' || users.surname as teacher,subject.subject_name
+           FROM teachers_subject
+           INNER JOIN "users" 
+           on teachers_subject.fk_teacher = users.id
+           INNER JOIN "subject" 
+           on teachers_subject.fk_subject = subject.id;
+         ;
+     `;
+     client.query(query, (err, res)=>{
+         if(err){
+             console.log("teachers_subject " + err); return;
          }
      })
  }
@@ -115,50 +151,11 @@ function createScheduleView(){
      `;
      client.query(query, (err, res)=>{
          if(err){
-             console.log("class_view " + err); return;
+             console.log("student_assessment_view " + err); return;
          }
      })
  }
 
-function selectStudent(){
-    const query = `
-    godziny_lekcyjne_view where stopien >
-    (
-        Select stopien From godziny_lekcyjne_view WHERE id = 1
-    )
-`;
-  return query;
-}
-
-function selectUsers(){
-    const query = `
-    user_view where imie in
-    (
-        Select imie From Uzytkownik WHERE uprawnienie = 1
-    )
-`;
-  return query;
-}
-
-function selectScheduleView(){
-    const query = `
-    planZajec_view where nazwaKlasy in
-    (
-        Select nazwaKlasy From klasa WHERE id = 1
-    )
-`;
-  return query;
-}
-
-function selectClassView(){
-    const query = `
-    klasa_view where imie in
-    (
-        Select imie From Uzytkownik WHERE id=1
-    )
-`;
-  return query;
-}
 
 function createAllViews(){
     createStudentAssessmentView();
@@ -167,4 +164,6 @@ function createAllViews(){
     createScheduleView();
     createRemarksView();
     createStudentAssessmentView();
+    createStudentClassView();
+    createTeachersSubjectView();
 }

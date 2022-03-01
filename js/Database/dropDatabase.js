@@ -56,4 +56,5 @@ function dropALLDATABASE(){
 
 function dropDataBase(){
     dropTables();
+    window.alert("database was deleted");
 }

@@ -2,7 +2,7 @@ const { Client } = require('pg');
 
 const userLogin = "postgres";
 const userPassword = "password"
-// admin postgres , password
+
 
 const client = new Client({
     host: "127.0.0.1",

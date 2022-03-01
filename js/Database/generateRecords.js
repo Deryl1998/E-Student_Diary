@@ -239,4 +239,5 @@ async function generateData(){
     await generateTeachersSubject();
     await generateStudentAssessment();
     await generateSchedule();
+    window.alert("data was generate");
 }

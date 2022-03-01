@@ -66,7 +66,6 @@ async function addToTable(tableName,values){
         if( i < values.length-1) query+=`,`;
         else query+=`)`
     }
-    console.log(query)
     await client.query(query);
 }
 
@@ -75,12 +74,10 @@ async function uptadeTable(tableName,values){
     var query =` UPDATE `+tableName+` SET `; 
 
     for(var i=1 ; i < columns.length ;i++){
-        console.log(values[i]);
         query+=columns[i]+`='`+values[i]+`'`;
         if( i < columns.length-1) query+=`, `;
     }
     query+=` WHERE id='`+values[0]+`'`;
-    console.log(query);
     await client.query(query);
 }
 

@@ -308,7 +308,7 @@ function createDatabaseUsers(){
 
 
 async function createTables(){
-    //connect();
+ 
     if(await isExists("room") == 0){ 
         createRoom();
     }
@@ -342,11 +342,8 @@ async function createTables(){
     }
     if(await isExists("schedule") == 0) {
         createSchedule();
-        generateData();
         createAllViews();
         createDatabaseUsers();
     }
-   // disconnect();
+    window.alert("database was created");
 }
-
-createTables();
