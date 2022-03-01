@@ -1,37 +1,134 @@
 
-<form method="post" id="addStudentAssessment">
+<form method="post" id="addForm" class="form">
     <table>
+        <caption>Add</caption>
         <tr>
-            <td> <label for="grades">*stopien:</label></td>
-            <td> <input type="text" id="grades" pattern="^[0-9]+$" >  </td>
+            <td> <label for="item2">Degrees:</label></td>
+            <td> <select type="text" id="item2" ></td>
         </tr>
         <tr>
-            <td> <label for="student">*uczen:</label></td>
-            <td> <input type="text" id="student" pattern="^[0-9]+$" ></td>
+            <td> <label for="item1">Student:</label></td>
+            <td> <select type="text" id="item1"></td>
         </tr>
         <tr>
-            <td> <label for="subject">*przedmiot:</label></td>
-            <td> <input type="text" id="subject" pattern="^[0-9]+$" ></td>
+            <td> <label for="item3">Subject:</label></td>
+            <td> <select type="text" id="item3" ></td>
         </tr>
         <tr>
             <td> <button style="width:100%" type ="reset">Reset</button> </td>
-            <td> <button style="width:100%" type ="submit" >Zatwierdz</button></td>
+            <td> <button style="width:100%" type ="submit" >Submit</button></td>
+        </tr>
+    </table>
+    </form>
+    
+    <form method="post" id="editForm" class="form" style="display:none">
+        <table>
+            <caption>Edit</caption>
+            <td style="display:none"> <input type="text" id="id" > </td>
+            <tr>
+                <td> <label for="item5">Degrees:</label></td>
+                <td> <select type="text" id="item5" ></td>
+            </tr>
+            <tr>
+                <td> <label for="item4">Student:</label></td>
+                <td> <select type="text" id="item4"></td>
+            </tr>
+            <tr>
+                <td> <label for="item6">Subject:</label></td>
+                <td> <select type="text" id="item6" ></td>
+            </tr>
+            <tr>
+                <td> <button style="width:100%" type ="reset">Back</button> </td>
+                <td> <button style="width:100%" type ="submit" >Submit</button></td>
+            </tr>
+        </table>
+    </form>
+    
+    <br>
+    <form method="post" class="form" id="findForm">
+    <table>
+        <caption>Find</caption>
+        <tr>
+            <td>
+                *<select type="text" id="sel1">
+            </td>
+            <td>
+                <input type="text">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <select type="text" id="sel2">
+            </td>
+            <td>
+                <input type="text">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+               <button style="width:100%" type ="submit">Find</button>
+            </td>
         </tr>
     </table>
     </form>
     
     <script>
-        var user_form = document.querySelector('#addStudentAssessment');
-        user_form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const items = getAllElementsFromForm(user_form);
-            if(items==null) alert("Wprowadz dane do formularza");
-            else {
-                addStudentAssessment(items);
-                document.getElementById("addStudentAssessment").reset();
-                drawTable("oceny");
-            }
-        });
        
-    drawTable("oceny");
+        async function initPage(tableName,viewName){
+            var user_form = document.querySelector('#addForm');
+            var findUser = document.querySelector('#findForm');
+            var editUserForm = document.querySelector('#editForm');
+    
+            user_form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const items = getAllElementsFromForm(user_form);
+                if(items==null) return
+                else {
+                    addToTable(tableName,items);
+                    document.getElementById("addForm").reset();
+                }
+            });
+    
+            findUser.addEventListener('submit', (event) => {
+                event.preventDefault();
+                filterTable(findUser,tableName,viewName);
+            });
+    
+            editUserForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const items = getAllElementsFromForm(editUserForm);
+                console.log(items)
+                uptadeTable(tableName,items);
+            });
+    
+            editUserForm.addEventListener('reset', (event) => {
+                event.preventDefault();
+                document.querySelector('#editForm').style.display='none';
+                document.querySelector('#addForm').style.display='block';
+            });
+            
+            document.getElementById("class").pattern = words;
+      
+            const select1 = document.querySelector('#sel1');
+            const select2 = document.querySelector('#sel2');
+            const item1 = document.querySelector('#item1');
+            const item2 = document.querySelector('#item2');
+            const item3 = document.querySelector('#item3');
+            const item4 = document.querySelector('#item4');
+            const item5 = document.querySelector('#item5');
+            const item6 = document.querySelector('#item6');
+            var array = await getObjectKeys(await selectUsersFullName(1))
+            createSelectValue(item1,array,1)
+            createSelectValue(item4,array,1)
+            createSelectValuesColumns([select1,select2],[viewName,viewName]);
+            createSelectValues([item2,item5],['degrees','degrees'],1);
+            createSelectValues([item3,item6],['subject','subject'],1);
+
+            drawOnPage(tableName,viewName)
+        }
+    initPage('student_assessment','student_assessment_view');
+
     </script>
+    
+    

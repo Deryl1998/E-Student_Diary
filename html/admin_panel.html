@@ -44,8 +44,9 @@ window.$ = window.jQuery = require('jquery');
             <li> <a href ="#" id="users"> Users </a> </li>
             <li> <a href ="#" id="schedule"> Schedule </a> </li>
             <li> <a href ="#" id="subject"> Subjects </a> </li>
-            <li> <a href ="#" id="remarks"> Remarks </a> </li>
             <li> <a href ="#" id="room"> Rooms </a> </li>
+            <li> <a href ="#" id="lesson_hours"> Lesson hours </a> </li>
+            <li> <a href ="#" id="degrees"> Degrees </a> </li>
             <li> <a href ="#" id="class"> Class </a> </li>
             <li> <a href ="#" id="studentAssessment"> Student assessment </a> </li>
             <button style="margin-top: 15px; margin-left: 20px; background:rgb(92, 107, 190); color: white;" onclick="dropDataBase()">Delete tables</button>
@@ -76,11 +77,7 @@ window.$ = window.jQuery = require('jquery');
             $("#content").load("html/subject_form.html");
         });
     });
-    $(document).ready( function() {
-        $("#remarks").on("click", function() {
-            $("#content").load("html/remarks_form.html");
-        });
-    });
+
     $(document).ready( function() {
         $("#room").on("click", function() {
             $("#content").load("html/room_form.html");
@@ -92,8 +89,18 @@ window.$ = window.jQuery = require('jquery');
         });
     });
     $(document).ready( function() {
+        $("#lesson_hours").on("click", function() {
+            $("#content").load("html/lesson_hours.html");
+        });
+    });
+    $(document).ready( function() {
         $("#studentAssessment").on("click", function() {
             $("#content").load("html/studentAssessment_form.html");
+        });
+    });
+    $(document).ready( function() {
+        $("#degrees").on("click", function() {
+            $("#content").load("html/degrees_form.html");
         });
     });
 </script>

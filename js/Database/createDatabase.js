@@ -13,8 +13,7 @@ function createUser(){
                       REFERENCES roles (id) ON DELETE CASCADE,
             login VARCHAR ( 50 ) NOT NULL,
             UNIQUE(login),
-            password VARCHAR ( 50 ) NOT NULL,
-            sha_code text GENERATED ALWAYS AS (encode(sha256(password::bytea), 'hex')) STORED
+            password VARCHAR ( 50 ) NOT NULL
         );
     `;
     client.query(query, (err, res)=>{
@@ -106,9 +105,13 @@ function createSchedule(){
             fk_class BIGINT NOT NULL,
                 FOREIGN KEY (fk_class)
                       REFERENCES class (id) ON DELETE CASCADE,
-            fk_reserved_room BIGINT NOT NULL,
-                   FOREIGN KEY (fk_reserved_room)
-                      REFERENCES room (id) ON DELETE CASCADE
+            day_reservation DATE NOT NULL,
+            fk_lesson_hours BIGINT NOT NULL,
+                FOREIGN KEY (fk_lesson_hours)
+                    REFERENCES lesson_hours (id) ON DELETE CASCADE ,
+            fk_room BIGINT NOT NULL,
+                    FOREIGN KEY (fk_room)
+                         REFERENCES room (id) ON DELETE CASCADE
         );
     `;
     client.query(query, (err, res)=>{
@@ -237,28 +240,6 @@ function createDegrees(){
     })
 }
 
-function createRoomReservation(){
-    const query = `
-            CREATE TABLE room_reservation(
-            id bigserial primary key,
-            day_reservation DATE NOT NULL,
-            fk_lesson_hours BIGINT NOT NULL,
-                 FOREIGN KEY (fk_lesson_hours)
-                    REFERENCES lesson_hours (id) ON DELETE CASCADE ,
-            fk_room BIGINT NOT NULL,
-                 FOREIGN KEY (fk_room)
-                    REFERENCES room (id) ON DELETE CASCADE
-        );
-    `;
-    client.query(query, (err, res)=>{
-    if(err){
-        console.log("room_reservation " + err); return;
-    }else{
-        console.log("table room_reservation created"); return;
-    }
-    })
-}
-
  function createRoom(){
     const query = `
             CREATE TABLE room(
@@ -339,9 +320,6 @@ async function createTables(){
     }
     if(await isExists("lesson_hours") == 0) {
         createLessonHours();
-    }
-    if(await isExists("room_reservation") == 0){
-        createRoomReservation();
     }
     if(await isExists("users") == 0) {
         createClass();

@@ -1,38 +1,157 @@
 
-<form method="post" id="addSchedule">
+<form method="post" id="addForm" class="form">
     <table>
+        <caption>Schedule add</caption>
         <tr>
-            <td> <label for="subject">*Przedmiot:</label></td>
-            <td> <input type="text" id="subject" pattern="^[0-9]+$" >  </td>
+            <td> <label for="item1">subject:</label></td>
+            <td> <select type="text" id="item1"></td>
         </tr>
         <tr>
-            <td> <label for="class">*Klasa:</label></td>
-            <td> <input type="text" id="class" pattern="^[0-9]+$" ></td>
+            <td> <label for="item2">Class:</label></td>
+            <td> <select type="text" id="item2" ></td>
         </tr>
         <tr>
-            <td> <label for="room">*Sala:</label></td>
-            <td> <input type="text" id="room" pattern="^[0-9]+$" ></td>
+            <td> <label for="item3">Room:</label></td>
+            <td> <select type="text" id="item3" ></td>
+        </tr>
+        <tr>
+            <td> <label for="item4">Time:</label></td>
+            <td> <select type="text" id="item4" ></select> 
+                <select type="text" id="item9" ></select> 
+            </td>
+        </tr>
+        <tr>
+            <td> <label for="calendar">Calendar:</label></td>
+            <td> <div id="calendar"></div></td>
         </tr>
         <tr>
             <td> <button style="width:100%" type ="reset">Reset</button> </td>
-            <td> <button style="width:100%" type ="submit" >Zatwierdz</button></td>
+            <td> <button style="width:100%" type ="submit" >Submit</button></td>
+        </tr>
+    </table>
+    </form>
+    
+    <form method="post" id="editForm" class="form" style="display:none">
+        <table>
+            <caption>Schedule edit</caption>
+            <td style="display:none"> <input type="text" id="id" > </td>
+            <tr>
+                <td> <label for="item5">subject:</label></td>
+                <td> <select type="text" id="item5"></td>
+            </tr>
+            <tr>
+                <td> <label for="item6">Class:</label></td>
+                <td> <select type="text" id="item6" ></td>
+            </tr>
+            <tr>
+                <td> <label for="item7">Room:</label></td>
+                <td> <select type="text" id="item7" ></td>
+            </tr>
+            <tr>
+                <td> <label for="item8">Time:</label></td>
+                <td> <select type="text" id="item8" ></select>
+                     <select type="text" id="item10" ></select>
+                </td>
+            </tr>
+            <tr>
+                <td> <label for="calendar">Calendar:</label></td>
+                <td> <div id="calendar"></div></td>
+            </tr>
+            <tr>
+                <td> <button style="width:100%" type ="reset">Back</button> </td>
+                <td> <button style="width:100%" type ="submit" >Submit</button></td>
+            </tr>
+        </table>
+    </form>
+    
+    <br>
+    <form method="post" class="form" id="findForm">
+    <table>
+        <caption>Schedule find</caption>
+        <tr>
+            <td>
+                *<select type="text" id="sel1">
+            </td>
+            <td>
+                <input type="text">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <select type="text" id="sel2">
+            </td>
+            <td>
+                <input type="text">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+               <button style="width:100%" type ="submit">Find</button>
+            </td>
         </tr>
     </table>
     </form>
     
     <script>
-        var user_form = document.querySelector('#addSchedule');
-        user_form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const items = getAllElementsFromForm(user_form);
-            if(items==null) alert("Wprowadz dane do formularza");
-            else {
-                addSchedule(items);
-                document.getElementById("addSchedule").reset();
-                drawTable("planZajec");
-            }
-        });
-        
-    drawTable("planZajec");
-    </script>
+       
+        async function initPage(tableName,viewName){
+            var user_form = document.querySelector('#addForm');
+            var findUser = document.querySelector('#findForm');
+            var editUserForm = document.querySelector('#editForm');
     
+            user_form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const items = getAllElementsFromForm(user_form);
+                if(items==null) return
+                else {
+                    addToTable(tableName,items);
+                    document.getElementById("addForm").reset();
+                }
+            });
+    
+            findUser.addEventListener('submit', (event) => {
+                event.preventDefault();
+                filterTable(findUser,tableName,viewName);
+            });
+    
+            editUserForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const items = getAllElementsFromForm(editUserForm);
+                console.log(items)
+                uptadeTable(tableName,items);
+            });
+    
+            editUserForm.addEventListener('reset', (event) => {
+                event.preventDefault();
+                document.querySelector('#editForm').style.display='none';
+                document.querySelector('#addForm').style.display='block';
+            });
+            
+            document.getElementById("class").pattern = words;
+      
+            const select1 = document.querySelector('#sel1');
+            const select2 = document.querySelector('#sel2');
+            const item1 = document.querySelector('#item1');
+            const item2 = document.querySelector('#item2');
+            const item3 = document.querySelector('#item3');
+            const item4 = document.querySelector('#item4');
+            const item5 = document.querySelector('#item5');
+            const item6 = document.querySelector('#item6');
+            const item7 = document.querySelector('#item7');
+            const item8 = document.querySelector('#item8');
+            const item9 = document.querySelector('#item9');
+            const item10 = document.querySelector('#item10');
+            createSelectValuesColumns([select1,select2],[viewName,viewName]);
+            createSelectValues([item1,item3,item5,item7],['subject','room','subject','room'],1);
+            createSelectValues([item2,item6],['class_view','class_view'],2);
+            createSelectValues([item4,item8],['lesson_hours','lesson_hours'],1);
+            createSelectValues([item9,item10],['lesson_hours','lesson_hours'],2);
+            drawOnPage(tableName,viewName)
+        }
+    initPage('schedule','schedule_view');
+
+  
+    
+
+    </script>

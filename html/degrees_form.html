@@ -1,8 +1,8 @@
 <form method="post" id="addForm" class="form">
     <table>
-        <caption>Room add</caption>
+        <caption>Degrees add</caption>
         <tr>
-            <td> <label for="room">Room Name:</label></td>
+            <td> <label for="degrees">Degrees Name:</label></td>
             <td> <input type="text" id="room" ></td>
         </tr>
         <tr>
@@ -14,10 +14,10 @@
     
     <form method="post" id="editForm" class="form" style="display:none">
         <table>
-            <caption>Room edit</caption>
+            <caption>Degrees edit</caption>
             <td style="display:none"> <input type="text" id="id" > </td>
             <tr>
-                <td> <label for="class">Room Name:</label></td>
+                <td> <label for="degrees">Degrees:</label></td>
                 <td> <input type="text" id="class" ></td>
             </tr>
             <tr>
@@ -27,40 +27,11 @@
         </table>
     </form>
     
-    <br>
-    <form method="post" class="form" id="findForm">
-    <table>
-        <caption>Room find</caption>
-        <tr>
-            <td>
-                *<select type="text" id="sel1">
-            </td>
-            <td>
-                <input type="text">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <select type="text" id="sel2">
-            </td>
-            <td>
-                <input type="text">
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-               <button style="width:100%" type ="submit">Find</button>
-            </td>
-        </tr>
-    </table>
-    </form>
     
     <script>
        
-        async function initPage(tableName,viewName){
+        async function initPage(){
             var user_form = document.querySelector('#addForm');
-            var findUser = document.querySelector('#findForm');
             var editUserForm = document.querySelector('#editForm');
     
             user_form.addEventListener('submit', (event) => {
@@ -68,21 +39,17 @@
                 const items = getAllElementsFromForm(user_form);
                 if(items==null) return
                 else {
-                    addToTable(tableName,items);
+                    addToTable('degrees',items);
                     document.getElementById("addForm").reset();
                 }
             });
     
-            findUser.addEventListener('submit', (event) => {
-                event.preventDefault();
-                filterTable(findUser,tableName,viewName);
-            });
-    
+       
             editUserForm.addEventListener('submit', (event) => {
                 event.preventDefault();
                 const items = getAllElementsFromForm(editUserForm);
                 console.log(items)
-                uptadeTable(viewName,items);
+                uptadeTable('degrees',items);
             });
     
             editUserForm.addEventListener('reset', (event) => {
@@ -91,14 +58,8 @@
                 document.querySelector('#addForm').style.display='block';
             });
             
-            document.getElementById("room").pattern = words;
-      
-            const select1 = document.querySelector('#sel1');
-            const select2 = document.querySelector('#sel2');
-            createSelectValuesColumns([select1,select2],[viewName,viewName]);
-            drawOnPage(tableName,viewName)
+            document.getElementById("degrees").pattern = words;
         }
-
-    initPage('room','room');
-    
+    initPage();
+    drawOnPage('degrees','degrees')
     </script>

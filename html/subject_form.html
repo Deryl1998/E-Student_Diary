@@ -1,33 +1,104 @@
-
-<form method="post" id="addSubject">
+<form method="post" id="addForm" class="form">
     <table>
+        <caption>Subject add</caption>
         <tr>
-            <td> <label for="leader">*Prowadzacy:</label></td>
-            <td> <input type="text" id="leader" pattern="^[0-9]+$" >  </td>
-        </tr>
-        <tr>
-            <td> <label for="lesson">*Nazwa przedmiotu:</label></td>
-            <td> <input type="text" id="lesson" pattern="^[A-Z]{1}[a-z]{1,10}$" ></td>
+            <td> <label for="subject">Subject:</label></td>
+            <td> <input type="text" id="room" ></td>
         </tr>
         <tr>
             <td> <button style="width:100%" type ="reset">Reset</button> </td>
-            <td> <button style="width:100%" type ="submit" >Zatwierdz</button></td>
+            <td> <button style="width:100%" type ="submit" >Submit</button></td>
+        </tr>
+    </table>
+    </form>
+    
+    <form method="post" id="editForm" class="form" style="display:none">
+        <table>
+            <caption>Subject edit</caption>
+            <td style="display:none"> <input type="text" id="id" > </td>
+            <tr>
+                <td> <label for="subject">Subject:</label></td>
+                <td> <input type="text" id="class" ></td>
+            </tr>
+            <tr>
+                <td> <button style="width:100%" type ="reset">Reset</button> </td>
+                <td> <button style="width:100%" type ="submit" >Submit</button></td>
+            </tr>
+        </table>
+    </form>
+    
+    <br>
+    <form method="post" class="form" id="findForm">
+    <table>
+        <caption>Subject find</caption>
+        <tr>
+            <td>
+                *<select type="text" id="sel1">
+            </td>
+            <td>
+                <input type="text">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <select type="text" id="sel2">
+            </td>
+            <td>
+                <input type="text">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+               <button style="width:100%" type ="submit">Find</button>
+            </td>
         </tr>
     </table>
     </form>
     
     <script>
-        var user_form = document.querySelector('#addSubject');
-        user_form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const items = getAllElementsFromForm(user_form);
-            if(items==null) alert("Wprowadz dane do formularza");
-            else {
-                addSubject(items);
-                document.getElementById("addSubject").reset();
-                drawTable("przedmiot");
-            }
-        });
-    drawTable("przedmiot");
-    </script>
+       
+        async function initPage(tableName,viewName){
+            var user_form = document.querySelector('#addForm');
+            var findUser = document.querySelector('#findForm');
+            var editUserForm = document.querySelector('#editForm');
     
+            user_form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const items = getAllElementsFromForm(user_form);
+                if(items==null) return
+                else {
+                    addToTable(tableName,items);
+                    document.getElementById("addForm").reset();
+                }
+            });
+    
+            findUser.addEventListener('submit', (event) => {
+                event.preventDefault();
+                filterTable(findUser,tableName,viewName);
+            });
+    
+            editUserForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const items = getAllElementsFromForm(editUserForm);
+                console.log(items)
+                uptadeTable(viewName,items);
+            });
+    
+            editUserForm.addEventListener('reset', (event) => {
+                event.preventDefault();
+                document.querySelector('#editForm').style.display='none';
+                document.querySelector('#addForm').style.display='block';
+            });
+            
+            document.getElementById("subject").pattern = words;
+      
+            const select1 = document.querySelector('#sel1');
+            const select2 = document.querySelector('#sel2');
+            createSelectValuesColumns([select1,select2],[viewName,viewName]);
+            drawOnPage(tableName,viewName)
+        }
+    initPage('subject','subject');
+
+
+    </script>

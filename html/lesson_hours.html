@@ -1,18 +1,14 @@
 
 <form method="post" id="addForm" class="form">
     <table>
-        <caption>Schedule add</caption>
+        <caption>Add</caption>
         <tr>
-            <td> <label for="item1">subject:</label></td>
-            <td> <select type="text" id="item1"></td>
+            <td> <label for="item1">Start Time:</label></td>
+            <td> <input type="text" id="item1" ></td>
         </tr>
         <tr>
-            <td> <label for="item2">Class:</label></td>
-            <td> <select type="text" id="item2" ></td>
-        </tr>
-        <tr>
-            <td> <label for="item3">Reservation:</label></td>
-            <td> <select type="text" id="item3" ></td>
+            <td> <label for="item2">End Time::</label></td>
+            <td> <input type="text" id="item2"></td>
         </tr>
         <tr>
             <td> <button style="width:100%" type ="reset">Reset</button> </td>
@@ -23,19 +19,15 @@
     
     <form method="post" id="editForm" class="form" style="display:none">
         <table>
-            <caption>Schedule edit</caption>
+            <caption>Edit</caption>
             <td style="display:none"> <input type="text" id="id" > </td>
             <tr>
-                <td> <label for="item4">subject:</label></td>
-                <td> <select type="text" id="item4"></td>
+                <td> <label for="item3">Start Time:</label></td>
+                <td> <input type="text" id="item3" ></td>
             </tr>
             <tr>
-                <td> <label for="item5">Class:</label></td>
-                <td> <select type="text" id="item5" ></td>
-            </tr>
-            <tr>
-                <td> <label for="item6">Reservation:</label></td>
-                <td> <select type="text" id="item6" ></td>
+                <td> <label for="item4">End Time:</label></td>
+                <td> <input type="text" id="item4"></td>
             </tr>
             <tr>
                 <td> <button style="width:100%" type ="reset">Back</button> </td>
@@ -47,7 +39,7 @@
     <br>
     <form method="post" class="form" id="findForm">
     <table>
-        <caption>Schedule find</caption>
+        <caption>Find</caption>
         <tr>
             <td>
                 *<select type="text" id="sel1">
@@ -85,6 +77,9 @@
                 const items = getAllElementsFromForm(user_form);
                 if(items==null) return
                 else {
+                    const date1 = new Date('2020-01-01 ' + items[0]);
+                    const date2 = new Date('2020-01-01 ' + items[1]);
+                    if(date1.getTime() > date2.getTime()) return;
                     addToTable(tableName,items);
                     document.getElementById("addForm").reset();
                 }
@@ -108,23 +103,18 @@
                 document.querySelector('#addForm').style.display='block';
             });
             
-            document.getElementById("class").pattern = words;
-      
+            document.getElementById("item1").pattern = time;
+            document.getElementById("item2").pattern = time;
+            document.getElementById("item3").pattern = time;
+            document.getElementById("item4").pattern = time;
             const select1 = document.querySelector('#sel1');
             const select2 = document.querySelector('#sel2');
-            const item1 = document.querySelector('#item1');
-            const item2 = document.querySelector('#item2');
-            const item3 = document.querySelector('#item3');
-            const item4 = document.querySelector('#item4');
-            const item5 = document.querySelector('#item5');
-            const item6 = document.querySelector('#item6');
             createSelectValuesColumns([select1,select2],[viewName,viewName]);
-            createSelectValues([item1,item3],['subject','room_reservation_view'],1);
-            createSelectValues([item2],['class_view'],2);
-            createSelectValues([item4,item6],['subject','room_reservation_view'],1);
-            createSelectValues([item5],['class_view'],2);
+         
             drawOnPage(tableName,viewName)
         }
-    initPage('remarks','remarks_view');
+    initPage('lesson_hours','lesson_hours');
 
     </script>
+    
+    

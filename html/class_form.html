@@ -1,32 +1,118 @@
 
-<form method="post" id="addClass">
+<form method="post" id="addForm" class="form">
     <table>
+        <caption>Class add</caption>
         <tr>
-            <td> <label for="teacher">*wychowawca:</label></td>
-            <td> <input type="text" id="teacher" pattern="^[0-9]+$" >  </td>
+            <td> <label for="sel1">Teacher:</label></td>
+            <td> <select type="text" id="sel1"></td>
         </tr>
         <tr>
-            <td> <label for="remark">*Nazwa klasy:</label></td>
-            <td> <input type="text" id="remark" pattern="^[A-Za-z0-9]+$" ></td>
+            <td> <label for="class">Class:</label></td>
+            <td> <input type="text" id="class" ></td>
         </tr>
         <tr>
             <td> <button style="width:100%" type ="reset">Reset</button> </td>
-            <td> <button style="width:100%" type ="submit" >Zatwierdz</button></td>
+            <td> <button style="width:100%" type ="submit" >Submit</button></td>
+        </tr>
+    </table>
+    </form>
+    
+    <form method="post" id="editForm" class="form" style="display:none">
+        <table>
+            <caption>Class edit</caption>
+            <td style="display:none"> <input type="text" id="id" > </td>
+            <tr>
+                <td> <label for="sel2">Teacher:</label></td>
+                <td> <select type="text" id="sel2"></td>
+            </tr>
+            <tr>
+                <td> <label for="class">Class:</label></td>
+                <td> <input type="text" id="class" ></td>
+            </tr>
+            <tr>
+                <td> <button style="width:100%" type ="reset">Reset</button> </td>
+                <td> <button style="width:100%" type ="submit" >Submit</button></td>
+            </tr>
+        </table>
+    </form>
+    
+    <br>
+    <form method="post" class="form" id="findForm">
+    <table>
+        <caption>Class find</caption>
+        <tr>
+            <td>
+                *<select type="text" id="sel3">
+            </td>
+            <td>
+                <input type="text">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <select type="text" id="sel4">
+            </td>
+            <td>
+                <input type="text">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+               <button style="width:100%" type ="submit">Find</button>
+            </td>
         </tr>
     </table>
     </form>
     
     <script>
-        var user_form = document.querySelector('#addClass');
-        user_form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const items = getAllElementsFromForm(user_form);
-            if(items==null) alert("Wprowadz dane do formularza");
-            else {
-                addClass(items);
-                document.getElementById("addClass").reset();
-                drawTable("klasa");
-            }
-        });
-    drawTable("klasa");
+       
+        async function initPage(tableName,viewName){
+            var user_form = document.querySelector('#addForm');
+            var findUser = document.querySelector('#findForm');
+            var editUserForm = document.querySelector('#editForm');
+    
+            user_form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const items = getAllElementsFromForm(user_form);
+                if(items==null) return
+                else {
+                    addToTable(tableName,items);
+                    document.getElementById("addForm").reset();
+                }
+            });
+    
+            findUser.addEventListener('submit', (event) => {
+                event.preventDefault();
+                filterTable(findUser,tableName,viewName);
+            });
+    
+            editUserForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const items = getAllElementsFromForm(editUserForm);
+                console.log(items)
+                uptadeTable(tableName,items);
+            });
+    
+            editUserForm.addEventListener('reset', (event) => {
+                event.preventDefault();
+                document.querySelector('#editForm').style.display='none';
+                document.querySelector('#addForm').style.display='block';
+            });
+            
+            document.getElementById("class").pattern = words;
+      
+            const select1 = document.querySelector('#sel1');
+            const select2 = document.querySelector('#sel2');
+            const select3 = document.querySelector('#sel3');
+            const select4 = document.querySelector('#sel4');
+            var array = await getObjectKeys(await selectUsersFullName(2))
+            createSelectValue(select1,array,1)
+            createSelectValue(select2,array,1)
+            createSelectValuesColumns([select3,select4],[viewName,viewName]);
+           
+            drawOnPage(tableName,viewName)
+        }
+    initPage('class','class_view');
+
     </script>

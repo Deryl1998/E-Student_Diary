@@ -1,28 +1,29 @@
 
-<form method="post" id="addUser">
+<form method="post" class="form" id="addForm">
 <table>
+    <caption>User add</caption>
     <tr>
-        <td> <label for="fname">*Name:</label></td>
+        <td> <label for="fname">Name:</label></td>
         <td> <input type="text" id="fname" >  </td>
     </tr>
     <tr>
-        <td> <label for="lname">*Surname:</label></td>
+        <td> <label for="lname">Surname:</label></td>
         <td> <input type="text" id="lname" ></td>
     </tr>
     <tr>
-        <td> <label for="sex">*Sex:</label></td>
-        <td> <select type="text" id="sex"></td>
+        <td> <label for="sel1">Sex:</label></td>
+        <td> <select type="text" id="sel1"></td>
     </tr>
     <tr>
-        <td> <label for="role">*Role:</label></td>
-        <td> <select type="text" id="role"></td>
+        <td> <label for="sel2">Role:</label></td>
+        <td> <select type="text" id="sel2"></td>
     </tr>
     <tr>
-        <td> <label for="login">*Login:</label></td>
+        <td> <label for="login">Login:</label></td>
         <td> <input type="text" id="login" ></td>
     </tr>
     <tr>
-        <td> <label for="password">*Password:</label></td>
+        <td> <label for="password">Password:</label></td>
         <td> <input type="text" id="password" ></td>
     </tr>
     <tr>
@@ -32,22 +33,114 @@
 </table>
 </form>
 
+<form method="post" class="form" id="editForm" style="display:none">
+    <table>
+        <caption>User edit</caption>
+        <td style="display:none"> <input type="text" id="id" > </td>
+        <tr>
+            <td> <label for="fname">Name:</label></td>
+            <td> <input type="text" id="fname" >  </td>
+        </tr>
+        <tr>
+            <td> <label for="lname">Surname:</label></td>
+            <td> <input type="text" id="lname" ></td>
+        </tr>
+        <tr>
+            <td> <label for="sel5">Sex:</label></td>
+            <td> <select type="text" id="sel5"></td>
+        </tr>
+        <tr>
+            <td> <label for="sel6">Role:</label></td>
+            <td> <select type="text" id="sel6"></td>
+        </tr>
+        <tr>
+            <td> <button style="width:100%" type ="reset">Back</button> </td>
+            <td> <button style="width:100%" type ="submit" >Edit</button></td>
+        </tr>
+    </table>
+</form>
+
+<br>
+<form method="post" class="form" id="findForm">
+<table>
+    <caption>User find</caption>
+    <tr>
+        <td>
+            *<select type="text" id="sel3">
+        </td>
+        <td>
+            <input type="text">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <select type="text" id="sel4">
+        </td>
+        <td>
+            <input type="text">
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+           <button style="width:100%" type ="submit">Find</button>
+        </td>
+    </tr>
+</table>
+</form>
+
 <script>
-    var user_form = document.querySelector('#addUser');
-    user_form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const items = getAllElementsFromForm(user_form);
-        if(items==null) return
-        else {
-            addUser(items);
-            document.getElementById("addUser").reset();
-            drawTable('users_view',"users");
-        }
-    });
-document.getElementById("fname").pattern = words;
-document.getElementById("lname").pattern = words;
-document.getElementById("login").pattern = words;
-document.getElementById("password").pattern = password;
-createSelectValuesForALl(user_form,['sex','role'],1)
-drawTable('users_view',"users");
+   
+    function initPage(tableName,viewName){
+        var user_form = document.querySelector('#addForm');
+        var findUser = document.querySelector('#findForm');
+        var editUserForm = document.querySelector('#editForm');
+
+        user_form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const items = getAllElementsFromForm(user_form);
+            if(items==null) return
+            else {
+                addToTable(tableName,items);
+                document.getElementById("addForm").reset();
+                drawOnPage(tableName,viewName)
+            }
+        });
+
+        findUser.addEventListener('submit', (event) => {
+            event.preventDefault();
+            filterTable(findUser,tableName,viewName);
+        });
+
+        editUserForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const items = getAllElementsFromForm(editUserForm);
+            console.log(items)
+            uptadeTable(viewName,items);
+        });
+
+        editUserForm.addEventListener('reset', (event) => {
+            event.preventDefault();
+            document.querySelector('#editForm').style.display='none';
+            document.querySelector('#addForm').style.display='block';
+        });
+        
+        document.getElementById("fname").pattern = words;
+        document.getElementById("lname").pattern = words;
+        document.getElementById("login").pattern = words;
+        document.getElementById("password").pattern = password;
+        const select1 = document.querySelector('#sel1');
+        const select2 = document.querySelector('#sel2');
+        const select3 = document.querySelector('#sel3');
+        const select4 = document.querySelector('#sel4');
+        const select5 = document.querySelector('#sel5');
+        const select6 = document.querySelector('#sel6');
+        createSelectValues([select1,select2],['sex','roles'],1)
+        createSelectValuesColumns([select3,select4],[viewName,viewName]);
+        createSelectValues([select5,select6],['sex','roles'],1);
+       
+        drawOnPage(tableName,viewName)
+    }
+initPage('users','users_view');
+
 </script>

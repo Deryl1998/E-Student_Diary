@@ -42,7 +42,7 @@ function createStudentAssessmentView(){
 function createClassView(){
    const query = `
           CREATE OR REPLACE VIEW "class_view" AS SELECT
-          users.name,users.surname,class.class_name
+          class.id,users.name ||' '|| users.surname as Teacher,class.class_name
           FROM class
           INNER JOIN "users"
           on class.fk_teacher = users.id;
@@ -58,8 +58,8 @@ function createClassView(){
 function createScheduleView(){
     const query = `
           CREATE OR REPLACE VIEW "schedule_view" AS SELECT
-          class.class_name,subject.subject_name, room.room_name,lesson_hours.start_time,
-          lesson_hours.end_time,room_reservation.day_reservation
+          schedule.id,subject.subject_name,class.class_name, room.room_name,lesson_hours.start_time,
+          lesson_hours.end_time, TO_CHAR(schedule.day_reservation :: DATE,'dd/mm/yyyy') as day
           FROM schedule
 
           INNER JOIN "teachers_subject"
@@ -70,12 +70,10 @@ function createScheduleView(){
           INNER JOIN "class"
           on schedule.fk_class = class.id
 
-          INNER JOIN "room_reservation"
-          on schedule.fk_reserved_room = room_reservation.id
-                INNER JOIN "lesson_hours"
-                on room_reservation.fk_lesson_hours = lesson_hours.id
-                INNER JOIN "room"
-                on room_reservation.fk_room = room.id;
+          INNER JOIN "lesson_hours"
+          on schedule.fk_lesson_hours = lesson_hours.id
+          INNER JOIN "room"
+          on schedule.fk_room = room.id;
         ;
     `;
     client.query(query, (err, res)=>{
@@ -84,6 +82,43 @@ function createScheduleView(){
         }
     })
 }
+
+ function createRemarksView(){
+    const query = `
+           CREATE OR REPLACE VIEW "remarks_view" AS SELECT
+           remarks.id,users.name || ' ' || users.surname as Teacher,remarks.fk_student,
+           remarks.remark
+           FROM remarks
+           INNER JOIN "users" 
+           on remarks.fk_teacher = users.id;
+         ;
+     `;
+     client.query(query, (err, res)=>{
+         if(err){
+             console.log("class_view " + err); return;
+         }
+     })
+ }
+
+ function createStudentAssessmentView(){
+    const query = `
+           CREATE OR REPLACE VIEW "student_assessment_view" AS SELECT
+           student_assessment.id,degrees.degrees,users.name || ' ' || users.surname as full_name, subject.subject_name
+           FROM student_assessment
+           INNER JOIN "users" 
+           on student_assessment.fk_student = users.id
+           INNER JOIN "degrees" 
+           on student_assessment.fk_degrees = degrees.id
+           INNER JOIN "subject" 
+           on student_assessment.fk_subject = subject.id;
+         ;
+     `;
+     client.query(query, (err, res)=>{
+         if(err){
+             console.log("class_view " + err); return;
+         }
+     })
+ }
 
 function selectStudent(){
     const query = `
@@ -130,4 +165,6 @@ function createAllViews(){
     createUsersView();
     createClassView();
     createScheduleView();
+    createRemarksView();
+    createStudentAssessmentView();
 }

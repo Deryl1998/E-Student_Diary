@@ -72,23 +72,6 @@ async function generateRoom(){
     })
 }
 
-async function generateRoomReservation(){
-    const query = `
-    INSERT INTO room_reservation (day_reservation,fk_lesson_hours,fk_room) VALUES
-    ('2022-03-01','1','1'),
-    ('2022-03-02','2','1'),
-    ('2022-03-03','3','2'),
-    ('2022-03-04','4','1'),
-    ('2022-03-05','5','3'),
-    ('2022-03-06','6','1');
-    `;
-    client.query(query, (err, res)=>{
-    if(err){
-        console.log(err); return;
-    }
-    })
-}
-
 async function generateSex(){
     const query = `
     INSERT INTO sex (sex) VALUES
@@ -231,10 +214,10 @@ async function generateStudentAssessment(){
 
 async function generateSchedule(){
     const query = `
-    INSERT INTO schedule (fk_subject,fk_class,fk_reserved_room) VALUES
-    ('1','1','1'),
-    ('2','2','2'),
-    ('1','2','3');
+    INSERT INTO schedule (fk_subject,fk_class,day_reservation,fk_lesson_hours,fk_room) VALUES
+    ('1','1','2022-03-01','1','1'),
+    ('2','2','2022-03-03','3','2'),
+    ('1','2','2022-03-05','5','3');
     `;
     client.query(query, (err, res)=>{
     if(err){
@@ -249,7 +232,6 @@ async function generateData(){
     await generateDegrees();
     await generateLessonHours();
     await generateRoom();
-    await generateRoomReservation();
     await generateUser();
     await generateRemarks();
     await generateClass();
