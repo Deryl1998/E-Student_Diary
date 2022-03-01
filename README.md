@@ -1,3 +1,3 @@
-This is app for administrator database
+This is a database application for the administrator
 
 database: postgreSQL
